@@ -944,6 +944,7 @@
     <Content Include="App_Themes\Spring\BaseStyles.css.map">
       <DependentUpon>BaseStyles.css</DependentUpon>
     </Content>
+    <Content Include="forms\Quest\Web.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -1018,7 +1019,9 @@
     <Content Include="Xml\ServiceSecurityProvider.xml" />
     <Content Include="Xml\ViewColumnProvider.xml" />
     <Content Include="Xml\ViewColumnProvider.xsd" />
-    <Content Include="Xml\WebControlProvider.xml" />
+    <Content Include="Xml\WebControlProvider.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Xml\WebControlProvider.xsd" />
     <Content Include="Xml\Bindings\ExampleE.xml" />
     <Content Include="Xml\Sitemaps\Empty.sitemap" />
@@ -1037,6 +1040,46 @@
     </Compile>
     <Compile Include="forms\Products\IzmenenieStoimostiL.aspx.designer.cs">
       <DependentUpon>IzmenenieStoimostiL.aspx</DependentUpon>
+    </Compile>
+    <Content Include="forms\Quest\Zapros1.aspx" />
+    <Compile Include="forms\Quest\Zapros1.aspx.cs">
+      <DependentUpon>Zapros1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forms\Quest\Zapros1.aspx.designer.cs">
+      <DependentUpon>Zapros1.aspx</DependentUpon>
+    </Compile>
+    <Content Include="forms\Quest\Zapros3.aspx" />
+    <Compile Include="forms\Quest\Zapros3.aspx.cs">
+      <DependentUpon>Zapros3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forms\Quest\Zapros3.aspx.designer.cs">
+      <DependentUpon>Zapros3.aspx</DependentUpon>
+    </Compile>
+    <Content Include="forms\Quest\Zapros2.aspx" />
+    <Compile Include="forms\Quest\Zapros2.aspx.cs">
+      <DependentUpon>Zapros2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forms\Quest\Zapros2.aspx.designer.cs">
+      <DependentUpon>Zapros2.aspx</DependentUpon>
+    </Compile>
+    <Content Include="forms\Quest\Zapros4.aspx" />
+    <Compile Include="forms\Quest\Zapros4.aspx.cs">
+      <DependentUpon>Zapros4.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forms\Quest\Zapros4.aspx.designer.cs">
+      <DependentUpon>Zapros4.aspx</DependentUpon>
+    </Compile>
+    <Content Include="forms\Quest\Zapros5.aspx" />
+    <Compile Include="forms\Quest\Zapros5.aspx.cs">
+      <DependentUpon>Zapros5.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="forms\Quest\Zapros5.aspx.designer.cs">
+      <DependentUpon>Zapros5.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup />
