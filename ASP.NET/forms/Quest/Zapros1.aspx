@@ -3,7 +3,7 @@
 <%@ Import namespace="NewPlatform.Flexberry.Web.Page" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="PageTitlePlaceholder" runat="server">
-    Запрос
+    Запрос 1
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="AddToHeadPlaceholder" runat="server">
 </asp:Content>

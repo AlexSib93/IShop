@@ -16,11 +16,11 @@
       <siteMapNode title="Отчет" description="" url="~/forms/Documents/OtchetL.aspx" />
     </siteMapNode>
     <siteMapNode title="Запросы" roles="*" xmlns="">
-      <siteMapNode title="Запрос1" description="" url="~/forms/Quest/Zapros1.aspx" />
-      <siteMapNode title="Запрос2" description="" url="~/forms/Quest/Zapros2.aspx" />
-      <siteMapNode title="Запрос3" description="" url="~/forms/Quest/Zapros3.aspx" />
-      <siteMapNode title="Запрос4" description="" url="~/forms/Quest/Zapros4.aspx" />
-      <siteMapNode title="Запрос5" description="" url="~/forms/Quest/Zapros5.aspx" />
+      <siteMapNode title="Товары в диапозоне цен" description="" url="~/forms/Quest/Zapros1.aspx" />
+      <siteMapNode title="Товары, не проданные в прошлом месяце" description="" url="~/forms/Quest/Zapros2.aspx" />
+      <siteMapNode title="Цена снижается 3 месяца" description="" url="~/forms/Quest/Zapros3.aspx" />
+      <siteMapNode title="Топ-10" description="" url="~/forms/Quest/Zapros4.aspx" />
+      <siteMapNode title="Товар, принесший максимальную прибыль" description="" url="~/forms/Quest/Zapros5.aspx" />
     </siteMapNode>
   </siteMapNode>
 </siteMap>
