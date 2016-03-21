@@ -9,6 +9,10 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Linq;
+using ICSSoft.STORMNET;
+using ICSSoft.STORMNET.Business;
+using ICSSoft.STORMNET.Business.LINQProvider;
 
 namespace IIS.Интернет_магазин
 {
@@ -16,7 +20,47 @@ namespace IIS.Интернет_магазин
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            var ds = (SQLDataService)DataServiceProvider.DataService;
+            var pseudoDetail = new PseudoDetail<Товар, ИзменениеСтоимости>(
+                ИзменениеСтоимости.Views.ИзменениеСтоимостиL,
+                Information.ExtractPropertyPath<ИзменениеСтоимости>(x => x.Товар));
+            var tovarList = ds.Query<Товар>(Товар.Views.ТоварL).Where(
+                y => pseudoDetail.Any(x=> x.НоваяЦена < x.СтараяЦена)).ToList();
+            TableRow tr;
+            TableCell tc;
+            DateTime now = DateTime.Today;
+            DateTime pr = now.AddMonths(-1);
+            DateTime prpr = now.AddMonths(-2);
+            DateTime prprpr = now.AddMonths(-3);
 
+            foreach (var tov in tovarList)
+            {
+                var ChangeList = ds.Query<ИзменениеСтоимости>(ИзменениеСтоимости.Views.ИзменениеСтоимостиE).Where(y=>(y.Товар.__PrimaryKey.Equals(tov.__PrimaryKey)) &&  (y.СтараяЦена>y.НоваяЦена));
+                if (ChangeList.Count<ИзменениеСтоимости>()>2)
+                {
+                    bool fpr= false;
+                    bool fprpr= false;
+                    bool fprprpr = false;
+                    foreach (var change in ChangeList)
+                    {
+                        if ((change.Дата.Year == pr.Year) && (change.Дата.Month == pr.Month))
+                            fpr = true;
+                        if ((change.Дата.Year == prpr.Year) && (change.Дата.Month == prpr.Month))
+                            fprpr = true;
+                        if ((change.Дата.Year == prprpr.Year) && (change.Дата.Month == prprpr.Month))
+                            fprprpr = true;
+                    }
+                    if (fpr && fprpr && fprprpr)
+                    {
+                        tr = new TableRow();
+                        tc = new TableCell() { Text = tov.Наименование, BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                        tr.Cells.Add(tc);
+                        Table.Rows.Add(tr);
+                    }
+                }
+
+
+            }
         }
     }
 }
