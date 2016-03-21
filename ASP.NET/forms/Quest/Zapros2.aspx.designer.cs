@@ -13,12 +13,12 @@ namespace IIS.Интернет_магазин {
     public partial class Запрос2 {
         
         /// <summary>
-        /// Wolv control.
+        /// Table control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::ICSSoft.STORMNET.Web.AjaxControls.WebObjectListView Wolv;
+        protected global::System.Web.UI.WebControls.Table Table;
     }
 }

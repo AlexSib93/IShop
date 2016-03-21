@@ -12,6 +12,10 @@ using System.Web.UI.HtmlControls;
 using ICSSoft.STORMNET.Business;
 using ICSSoft.STORMNET.Business.LINQProvider;
 using System.Collections.Generic;
+using System.Linq;
+using ICSSoft.STORMNET;
+
+
 
 namespace IIS.Интернет_магазин
 {
@@ -19,21 +23,32 @@ namespace IIS.Интернет_магазин
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Wolv.DataObjectTypes = new[] { typeof(Товар) };
-            Wolv.View = Товар.Views.ТоварL;
-            Wolv.Operations.New = false;
-            Wolv.Operations.Edit = false;
-            Wolv.Operations.EditInRow = false;
-            Wolv.Operations.Delete = false;
-            Wolv.Operations.DeleteInRow = false;
+            
             var ds = (SQLDataService)DataServiceProvider.DataService;
-            var goods = ds.Query<Товар>(Товар.Views.ТоварL);
-
-
-
-
-            Wolv.LimitFunction = LinqToLcs.GetLcs(goods.Expression, Товар.Views.ТоварL).LimitFunction;
-
+            DateTime now = DateTime.Today;
+            now = now.AddMonths(-1);
+            var отчет = ds.Query<Отчет>(Отчет.Views.ОтчетL).First(t => ((t.Год == now.Year) & (t.Месяц == now.Month)));
+            var key = отчет.__PrimaryKey;
+            ICSSoft.STORMNET.View dinView = ЗаписьВОтчете.Views.ЗаписьВОтчетеE;
+            dinView.AddProperty("Отчет");
+            var OtchetZap = ds.Query<ЗаписьВОтчете>(dinView).Where(p => p.Отчет.__PrimaryKey.Equals(key));
+            TableRow tr;
+            TableCell tc;
+            List<string> Selling = new List<string>();
+            foreach (ЗаписьВОтчете zap in OtchetZap)
+                Selling.Add(zap.Товар.Наименование);
+            var vseTovary = ds.Query<Товар>(Товар.Views.ТоварL);
+            List<string> vseTov = new List<string>();
+            foreach (Товар tov in vseTovary)
+                vseTov.Add(tov.Наименование);
+            var NotSelling = vseTov.Except<string>(Selling);
+            foreach (var tov in NotSelling)
+            {
+                tr = new TableRow();
+                tc = new TableCell() { Text = tov, BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                tr.Cells.Add(tc);
+                Table.Rows.Add(tr);
+            }
         }
     }
 }

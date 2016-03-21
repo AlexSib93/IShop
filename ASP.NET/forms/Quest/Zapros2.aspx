@@ -8,8 +8,9 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <h2 class="<%= Constants.FormHeaderCssClass %> <%= Constants.ListFormHeaderCssClass %>">Товары, не проданные в прошлом месяце</h2>
-     <div>
-        <ac:WebObjectListView runat="server" ID="Wolv"/>
+    <div>
+        <asp:Table ID="Table" runat="server" BorderStyle="Solid" BorderWidth="1">
+        </asp:Table>
     </div>
 </asp:Content>
 <asp:Content ID="Content4" ContentPlaceHolderID="ContentPlaceHolder0" runat="server">
