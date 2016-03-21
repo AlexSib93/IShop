@@ -9,14 +9,60 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Linq;
+using ICSSoft.STORMNET;
+using ICSSoft.STORMNET.Business;
+using ICSSoft.STORMNET.Business.LINQProvider;
+using System.Collections.Generic;
+
 
 namespace IIS.Интернет_магазин
 {
+    class GoodsWithSum
+    {
+        public string Name;
+        public Double Sum;
+    }
     public partial class Запрос5 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var ds = (SQLDataService)DataServiceProvider.DataService;
+            var goods = ds.Query<Товар>(Товар.Views.ТоварL).ToList();
+            TableRow tr;
+            TableCell tc;
+            tr = new TableRow();
+            tc = new TableCell() { Text = "Наименование продукта", BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+            tr.Cells.Add(tc);
+            tc = new TableCell() { Text = "Прибыль", BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+            tr.Cells.Add(tc);
+            Table.Rows.Add(tr);
+            List<GoodsWithSum> goodsList = new List<GoodsWithSum>();
+            foreach (var tov in goods)
+            {
+                var SellingList = ds.Query<ЗаписьВОтчете>(ЗаписьВОтчете.Views.ЗаписьВОтчетеE).Where(
+                y => y.Товар.__PrimaryKey.Equals(tov.__PrimaryKey)).ToList();
+                double sum = 0;
+                foreach (var pos in SellingList)
+                {
+                    sum += pos.Сумма;
+                }
+                GoodsWithSum goodsWitgSum = new GoodsWithSum() { Name = tov.Наименование, Sum = sum };
+                goodsList.Add(goodsWitgSum);
+            }
+            var sortedList = from g in goodsList
+                             orderby g.Sum descending
+                             select g;
+            sortedList.ThenBy(x => x.Name);
+            foreach (var l in sortedList.Take(1))
+            {
+                tr = new TableRow();
+                tc = new TableCell() { Text = l.Name, BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                tr.Cells.Add(tc);
+                tc = new TableCell() { Text = l.Sum.ToString(), BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                tr.Cells.Add(tc);
+                Table.Rows.Add(tr);
+            }
         }
     }
 }
