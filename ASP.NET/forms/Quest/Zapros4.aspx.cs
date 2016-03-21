@@ -9,14 +9,59 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.Web.UI.HtmlControls;
+using System.Linq;
+using ICSSoft.STORMNET;
+using ICSSoft.STORMNET.Business;
+using ICSSoft.STORMNET.Business.LINQProvider;
+using System.Collections.Generic;
 
 namespace IIS.Интернет_магазин
 {
+    class GoodsWithRate
+    {
+        public string Name;
+        public int Rate;
+    }
     public partial class Запрос4 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var ds = (SQLDataService)DataServiceProvider.DataService;
+            var goods = ds.Query<Товар>(Товар.Views.ТоварL).ToList();
+            TableRow tr;
+            TableCell tc;
+            tr = new TableRow();
+            tc = new TableCell() { Text = "Наименование продукта", BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+            tr.Cells.Add(tc);
+            tc = new TableCell() { Text = "Количество продано", BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+            tr.Cells.Add(tc);
+            Table.Rows.Add(tr);
+            List<GoodsWithRate> goodsList = new List<GoodsWithRate>();
+            foreach (var tov in goods)
+            {
+                var SellingList = ds.Query<ЗаписьВОтчете>(ЗаписьВОтчете.Views.ЗаписьВОтчетеE).Where(
+                y => y.Товар.__PrimaryKey.Equals(tov.__PrimaryKey)).ToList();
+                int rate = 0;
+                foreach (var pos in SellingList)
+                {
+                    rate += pos.Количество;
+                }
+                GoodsWithRate goodsWitgRate = new GoodsWithRate() { Name = tov.Наименование, Rate = rate };
+                goodsList.Add(goodsWitgRate);
+            }
+            var sortedList = from g in goodsList
+                             orderby g.Rate descending
+                             select g;
+            sortedList.ThenBy(x => x.Name);
+            foreach (var l in sortedList.Take(10))
+            {
+                tr = new TableRow();
+                tc = new TableCell() { Text = l.Name, BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                tr.Cells.Add(tc);
+                tc = new TableCell() { Text = l.Rate.ToString(), BorderStyle = BorderStyle.Solid, BorderWidth = 1 };
+                tr.Cells.Add(tc);
+                Table.Rows.Add(tr);
+            }
         }
     }
 }
